@@ -1,9 +1,18 @@
 package com.example.taskflow.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class VerificationToken {
 
     @Id
@@ -11,6 +20,7 @@ public class VerificationToken {
     private Long id;
 
     private String token;
+
     private LocalDateTime expiryDate;
 
     @OneToOne

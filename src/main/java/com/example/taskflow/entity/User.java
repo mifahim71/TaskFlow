@@ -32,7 +32,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private boolean isVerified;
+    private boolean isVerified = false;
 
     private LocalDateTime createdAt;
 
