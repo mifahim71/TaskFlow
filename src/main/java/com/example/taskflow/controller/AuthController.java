@@ -21,6 +21,8 @@ public class AuthController {
     public String hey(){
         return "working";
     }
+
+
     @PostMapping
     public ResponseEntity<String> registration(@RequestBody RegisterDto registerDto){
         try {

@@ -62,4 +62,15 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable Long id){
+        try{
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            taskService.deleteTask(id, email);
+            return ResponseEntity.ok("Deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,11 +38,11 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
-    private List<Task> assignedTasks;
+    private List<Task> assignedTasks = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members", cascade = CascadeType.ALL)
-    private List<Team> teams;
+    private List<Team> teams = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner")
-    private List<Project> ownedProjects;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Project> ownedProjects = new ArrayList<>();
 }

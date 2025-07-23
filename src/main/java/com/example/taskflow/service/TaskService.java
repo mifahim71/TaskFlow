@@ -81,6 +81,8 @@ public class TaskService {
         return taskMapper.toDto(task);
     }
 
+
+
     public TaskDto updateTask(Long id, String email, ResTaskDto resTaskDto) throws AccessDeniedException {
 
         User user = userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
@@ -102,5 +104,19 @@ public class TaskService {
         taskRepo.save(task);
 
         return taskMapper.toDto(task);
+    }
+
+    public void deleteTask(Long id, String email) throws AccessDeniedException {
+
+        User user = userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+
+        Task task = taskRepo.findById(id).orElseThrow(() -> new UsernameNotFoundException("Task not found"));
+
+        if (!Objects.equals(user.getId(), task.getAssignee().getId()) &&
+                !Objects.equals(user.getId(), task.getProject().getOwner().getId())){
+            throw new AccessDeniedException("you don't have access");
+        }
+
+        taskRepo.delete(task);
     }
 }

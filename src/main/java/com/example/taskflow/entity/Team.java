@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,5 +31,5 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "user_id")
 
     )
-    private List<User> members;
+    private List<User> members = new ArrayList<>();
 }
