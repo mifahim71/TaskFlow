@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/home").authenticated()
-                        .requestMatchers("/api/user/**","/api/projects/**").authenticated()
+                        .requestMatchers("/api/user/**","/api/projects/**","/api/task").authenticated()
                         .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults());
