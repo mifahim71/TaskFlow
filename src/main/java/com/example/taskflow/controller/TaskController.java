@@ -51,4 +51,15 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskDto> updateTask(@PathVariable Long id, @RequestBody ResTaskDto resTaskDto){
+        try{
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            TaskDto task = taskService.updateTask(id, email, resTaskDto);
+            return ResponseEntity.ok(task);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

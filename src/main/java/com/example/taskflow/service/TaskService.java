@@ -13,6 +13,7 @@ import com.example.taskflow.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
@@ -76,6 +77,29 @@ public class TaskService {
         if(!Objects.equals(user.getId(), task.getAssignee().getId())){
             throw new AccessDeniedException("you don't have access");
         }
+
+        return taskMapper.toDto(task);
+    }
+
+    public TaskDto updateTask(Long id, String email, ResTaskDto resTaskDto) throws AccessDeniedException {
+
+        User user = userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+
+        Task task = taskRepo.findById(id).orElseThrow(() -> new UsernameNotFoundException("Project not found"));
+
+        if(!Objects.equals(user.getId(), task.getAssignee().getId())){
+            throw new AccessDeniedException("you don't have access");
+        }
+
+        if(StringUtils.hasText(resTaskDto.getTitle())){
+            task.setTitle(resTaskDto.getTitle());
+        }
+
+        if(StringUtils.hasText(resTaskDto.getDescription())){
+            task.setDescription(resTaskDto.getDescription());
+        }
+
+        taskRepo.save(task);
 
         return taskMapper.toDto(task);
     }
