@@ -8,7 +8,10 @@ import com.example.taskflow.service.TeamService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/team")
@@ -36,6 +39,27 @@ public class TeamController {
             return ResponseEntity.ok(teamDto);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TeamDto>> getTeams(){
+        try {
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            List<TeamDto> teams = teamService.getTeams(email);
+            return ResponseEntity.ok(teams);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TeamDto> getTeamsById(@PathVariable Long id){
+        try {
+            TeamDto team = teamService.getTeamsById(id);
+            return ResponseEntity.ok(team);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }
